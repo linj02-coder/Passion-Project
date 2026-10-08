@@ -1,0 +1,368 @@
+<html lang="en">
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>InteractiveDesignPassionProject</title>
+        <style>
+            * { box-sizing: border-box; }
+            html { font-size: 62.5%; }
+
+            /* Makes the font of the entire page Poppins */
+            body {
+                margin: 0;
+                color: black;
+                font-family: "Poppins", Helvetica, Arial, sans-serif;
+            }
+
+            /* Adds a blue header and formats the size and content*/
+            .site-header {
+                min-height: 150px;
+                padding: 0 5.2%;
+                background: #BDEFFF;
+                display: flex;
+                align-items: center;
+            }
+
+            /* Formats the size of header logo */
+            .brand, .brand img {
+                display: block;
+                width: 186px;
+                height: 85px;
+            }
+
+            
+            /* Prevents the header logo from being stretched */
+            .brand img { 
+                object-fit: contain; 
+            }
+            
+            /* Spaces out the navigation buttons */
+            .main-nav {
+                margin-left: auto;
+                display: flex;
+                align-items: center;
+                gap: 48px;
+            }      
+
+            /* Formats the size of search icon */
+            .site-search img {
+                display: block;
+                width: 24px;
+                height: 24px;
+                object-fit: contain;
+            }
+
+            /* Sets the links the navigation buttons to black color, Poppins font, and removes underline */
+            nav a { 
+                color: black; 
+                font-size: 2rem; 
+                font-weight: 600; 
+                text-decoration: none; 
+                white-space: nowrap; 
+            }
+            
+            /* Formats the main images and keeps it from touching the side of the webpage and creates a gap between the two journeyes */
+            main {
+                width: 100%;
+                max-width: 1440px;
+                min-height: 821px;
+                margin: 0 auto;
+                padding: 0 36px 24px;
+                display: flex;
+                flex-direction: column;
+                gap: 40px;
+            }
+
+
+            /* Sets image to the proper size and position */
+            .journey {
+                min-height: 821px;
+                min-height: 1100px;
+                position: relative;
+                display: grid;
+                grid-template-columns: 43% 57%;
+                padding-bottom: 80px;
+            }
+
+            /* Centers the information of both journies */
+            .journey-copy {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: center;
+                padding: 24px;
+            }
+
+            /* Formats the heading of the journeyes */ 
+            .journey h1 {
+                margin: 0 0 24px;
+                font-size: clamp(4rem, 5vw, 6.4rem);
+                line-height: 1.05;
+                letter-spacing: -0.035em;
+                font-weight: 750;
+            }
+
+            /* Formats the previous journey map on the left and its text on the right */
+            .journey-previous { grid-template-columns: 57% 43%; }
+            .journey-previous .journey-map { grid-column: 1; grid-row: 1; }
+            .journey-previous .journey-copy { grid-column: 2; grid-row: 1; } 
+
+            /* Formats the paragraph of the journeyes */
+            .journey-current .journey-copy p,
+            .journey-previous .journey-copy p {
+                width: 100%;
+                max-width: 500px;
+                margin: 0 0 36px;
+            }
+
+            /* Formats the coaster photography iamges */
+            .journey-photo {
+                display: block;
+                width: 100%;
+                max-width: 420px;
+                max-height: 240px;
+                margin: 0 0 16px;
+                object-fit: cover;
+                border-radius: 12px;
+            }
+
+            /* Formats the explore the journey button by giving it a button shape, makes text large and black, and removes underline */
+            .cta {
+                display: inline-flex;
+                min-height: 60px;
+                align-items: center;
+                gap: 14px;
+                padding: 0 29px;
+                border-radius: 999px;
+                background: #a9efff;
+                font-size: 2rem;
+                font-weight: 700;
+                text-decoration: none;
+                white-space: nowrap;
+                color: black;
+            }
+
+            /* Makes the arrow of the explore the journey button bigger */
+            .cta span { 
+                font-size: 2.8rem; 
+                line-height: 1; 
+                font-weight: 400; 
+                color: black; 
+            }
+
+            /* Formats the map of the journeyes by setting the min height to 1075px to prevent it from taking up the whole screen */            
+            .journey-map {
+                min-height: 1075px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            /* Formats the track image of the map of the journeyes to fit it properly without stretching it */
+            .coaster-map-image {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+                object-fit: cover;
+                object-position: center;
+            }
+
+            /* Formats the position and appearance of the pins of the map of the journeyes */
+            .route-marker {
+                position: absolute;
+                width: 44px;
+                height: 55px;
+                display: block;
+            }
+
+            /* Formats the size of the pins of the map of the journeyes and makes them bigger when hovered over or focused on */
+            .route-marker img {
+                display: block;
+                height: 100%;
+                height: 100%;
+                object-fit: contain;
+                transition: transform 150ms ease;
+            }
+
+            /* Increases size of the pins when hovered over in both journeys */
+            .route-marker:hover img,
+            .route-marker:focus-visible img {
+                transform: scale(1.12);
+            }
+            
+            /* Determines the exact positions of each pins in both journeys */
+            .route-marker-1 { left: 23%; top: 10%; }
+            .route-marker-2 { right: 24%; top: 25%; }
+            .route-marker-3 { left: 23%; top: 41%; }
+            .route-marker-4 { right: 24%; top: 57%; }
+            .route-marker-5 { left: 23%; top: 75%; }
+
+            /* Formats the statistics of the journeyes in a side by side column within a round rectangular box with curves */
+            .journey-stats {
+                position: absolute;
+                z-index: 2;
+                left: -40px;
+                right: -40px;
+                bottom: 32px;
+                min-height: 128px;
+                padding: 25px 32px;
+                border-radius: 42px;
+                background: #BDEFFF;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                align-items: center;
+                text-align: center;
+                gap: 24px;
+            }
+
+            /* Formats the statistics of the journeyes to make the numbers bigger and the stat names bold */
+            .journey-stat strong {
+                display: block;
+                margin-bottom: 4px;
+                font-size: 2.7rem;
+                line-height: 1.2;
+            }
+
+            /* Formats the statistics of the journeyes to make the numbers bigger */
+            .journey-stat span { font-size: 2rem; }
+
+            /* Formats the footer of the webpage */
+            .site-footer {
+                width: 100%;
+                min-height: 150px;
+                padding: 10px 4%;
+                background: #BDEFFF;
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+
+            /* Formats the footer logo to make it smaller and centered */
+            .footer-brand {
+                align-self: center;
+                width: 110px;
+                height: 60px;
+            }
+
+            /* Prevents the footer logo from being stretched */
+            .footer-brand img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+            /* Adds the footer line to make it smaller and centered */
+            .footer-line {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                min-height: 54px;
+                border-top: 1px solid #777;
+                font-size: 2rem;
+                font-weight: 400;
+            }
+        
+            /* Makes the buttons on the right the proper size and puts a gap between */
+            .footer-links { display: flex; gap: 72px; }
+            .site-footer, .site-footer a, .footer-line, .footer-links { font-weight: 400; }
+            
+    </style>
+</head>
+<body>
+    <!-- Adds links to navigation buttons, search bar, and text -->
+    <header class="site-header" id="top">
+        <a class="brand" href="#top" aria-label="My Coaster Journey Home">
+            <img src="image/CoasterJourneyLogo.png" alt="My Coaster Journey">
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+            <a href="#top">Home</a>
+            <a href="#blog">Blog</a>
+            <a href="#destinations">Destinations</a>
+            <a href="#photos">Photos</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a class="site-search" href="#search" aria-label="Search">
+                <img src="image/InteractiveSearchBar.png" alt="">
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Current 2026 Coaster Journey information and adds button to the pins and explore the journey -->
+        <section class="journey journey-current" id="current-route" aria-labelledby="current-title">
+            <div class="journey-copy">
+                <img class="journey-photo" src="image/Gatekeeper.jpg" alt="Gatekeeper">
+                <h1 id="current-title">Current 2026<br>Coaster Journey:</h1>
+                <p>From my first ride on Stardust Racers in Epic Universe in Orlando, Florida to getting my 200th coaster at Cedar Point in Sandusky, Ohio, I have been to multiple parks and ridden many new roller coasters and re-rode some I have already experienced.</p>
+                <a class="cta" href="#current-route">Explore the journey <span aria-hidden="true">↗</span></a>
+                <br></br>
+                <img class="journey-photo" src="image/Stardust.jpg" alt="Stardust Racers">
+                <br></br>
+            </div>
+            <div class="journey-map" role="group" aria-label="2026 journey map and route markers">
+                <img class="coaster-map-image" src="image/coaster-track-background.png" alt="Coaster track background">
+                <a class="route-marker route-marker-1" href="#previous-route" aria-label="2025 route marker 1"><img src="image/map-marker.png" alt=""></a>
+                <a class="route-marker route-marker-2" href="#previous-route" aria-label="2025 route marker 2"><img src="image/map-marker.png" alt=""></a>
+                <a class="route-marker route-marker-3" href="#previous-route" aria-label="2025 route marker 3"><img src="image/map-marker.png" alt=""></a>
+                <a class="route-marker route-marker-4" href="#previous-route" aria-label="2025 route marker 4"><img src="image/map-marker.png" alt=""></a>
+                <a class="route-marker route-marker-5" href="#previous-route" aria-label="2025 route marker 5"><img src="image/map-marker.png" alt=""></a>
+            </div>
+            <div class="journey-stats" aria-label="2026 journey statistics">
+                <div class="journey-stat"><strong>Parks Visited:</strong>
+                    <span>21</span>
+                </div>
+                <div class="journey-stat"><strong>States Visited:</strong>
+                    <span>5</span>
+                </div>
+                <div class="journey-stat"><strong>New Coasters Ridden:</strong>
+                    <span>59</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Previous 2025 Coaster Journey information and adds button to the pins and explore the journey -->
+        <section class="journey journey-previous" id="previous-route" aria-labelledby="previous-title">
+            <div class="journey-copy">
+                <img class="journey-photo" src="image/Kraken.jpg" alt="Kraken">
+                <h1 id="previous-title">Previous 2025<br>Coaster Journey:</h1>
+                <p>From getting on Flash Vertical Velocity at Six Flags Great Adventure in New Jersey in its opening year to hitting up the best coaster park in Orlando, Florida with SeaWorld Orlando. I have been to multiple parks and ridden many new roller coasters and re-rode some I have already experienced.</p>
+                <a class="cta" href="#previous-route">Explore the journey <span aria-hidden="true">↗</span></a>
+                <br></br>
+                <img class="journey-photo" src="image/Flash.jpg" alt="Flash">
+                <br></br>
+            </div>
+            <div class="journey-map" role="group" aria-label="2025 journey map and route markers">
+                <img class="coaster-map-image" src="image/coaster-track-background.png" alt="Coaster track background">
+                <a class="route-marker route-marker-1" href="#previous-route" aria-label="2025 route marker 1"><img src="image/map-marker.png" alt=""></a>
+                <a class="route-marker route-marker-2" href="#previous-route" aria-label="2025 route marker 2"><img src="image/map-marker.png" alt=""></a>
+                <a class="route-marker route-marker-3" href="#previous-route" aria-label="2025 route marker 3"><img src="image/map-marker.png" alt=""></a>
+                <a class="route-marker route-marker-4" href="#previous-route" aria-label="2025 route marker 4"><img src="image/map-marker.png" alt=""></a>
+                <a class="route-marker route-marker-5" href="#previous-route" aria-label="2025 route marker 5"><img src="image/map-marker.png" alt=""></a>
+            </div>
+            <div class="journey-stats" aria-label="2025 journey statistics">
+                <div class="journey-stat"><strong>Parks Visited:</strong><span>8</span></div>
+                <div class="journey-stat"><strong>States Visited:</strong><span>4</span></div>
+                <div class="journey-stat"><strong>New Coasters Ridden:</strong><span>20</span></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer logo, links and text -->
+    <footer class="site-footer" id="contact">
+        <a class="footer-brand" href="#top" aria-label="My Coaster Journey Home">
+            <img src="image/CoasterJourneyLogo.png" alt="My Coaster Journey">
+        </a>
+        <div class="footer-line">
+            <span>© My Coaster Journey</span>
+            <nav class="footer-links" aria-label="Footer navigation">
+                <a href="#social">Social Media</a>
+                <a href="#privacy">Privacy Policy</a>
+            </nav>
+        </div>
+    </footer>
+</body>
+</html>
